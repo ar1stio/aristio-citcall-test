@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to HTML Table</title>
+</head>
+<body>
+    <h1>Country Data</h1>
+    <table id="countryTable" border="1">
+        <thead>
+            <tr>
+                <th>Country</th>
+                <th>Dial Code</th>
+                <th>Iso Code</th>
+                <th>Flag</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be added here by JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        // Fetch JSON data from the URL
+        fetch('https://citcall.com/test/countries.json')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#countryTable tbody');
+
+                // Loop through each item in the JSON data
+                data.forEach(country => {
+                    // Create a new row
+                    const row = document.createElement('tr');
+
+                    // Create a cell for the country name
+                    const countryCell = document.createElement('td');
+                    countryCell.textContent = country.name;
+
+                    // Create a cell for the country code
+                    const codeCell = document.createElement('td');
+                    codeCell.textContent = country.dialCode;
+                    
+                    const isoCode = document.createElement('td');
+                    isoCode.textContent = country.isoCode;
+                    
+                    const flag = document.createElement('td');
+
+                    // Create an image element
+                    const img = document.createElement('img');
+                    img.src = country.flag;
+                    img.alt = 'Flag'; // Provide alternative text for accessibility
+                    img.style.width = '50px'; // Set the desired width of the flag image
+                    img.style.height = 'auto';
+                    flag.appendChild(img)
+
+
+                    // Append cells to the row
+                    row.appendChild(countryCell);
+                    row.appendChild(codeCell);
+                    row.appendChild(isoCode);
+                    row.appendChild(flag);
+
+                    // Append row to the table body
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
